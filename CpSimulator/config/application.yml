@@ -1,0 +1,30 @@
+log:
+  filePath: "./log/tickmaker.log"
+
+listener:
+  port: 5432
+
+cp:
+  prices:
+    - symbol: "USD/JPY"
+      tick: 136.54
+      spread: 0.02
+      sigma: 0.4
+      r: 0.01
+    - symbol: "EUR/JPY"
+      tick: 144.870
+      spread: 0.02
+      sigma: 0.4
+      r: 0.01
+    - symbol: "GBP/JPY"
+      tick: 163.4
+      spread: 0.02
+      sigma: 0.4
+      r: 0.01
+    - symbol: "AUD/JPY"
+      tick: 92.09
+      spread: 0.02
+      sigma: 0.4
+      r: 0.01
+      
+
