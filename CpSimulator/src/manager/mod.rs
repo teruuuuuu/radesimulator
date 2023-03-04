@@ -1,8 +1,11 @@
 use std::sync::{Arc, Mutex};
 
+mod controller;
+mod listener;
+
 use crate::config::Config;
-use crate::controller::Controller;
-use crate::listener::Listener;
+use controller::Controller;
+use listener::Listener;
 use std::thread::JoinHandle;
 
 pub struct Manager {
@@ -30,18 +33,17 @@ impl Manager {
         join_handles.push(self.listener.start());
 
         // スレッドの停止を待つ
-        let mut count = 0;
         loop {
-            if (*self.is_end.lock().unwrap()) {
+            if *self.is_end.lock().unwrap() {
                 self.controller.stop();
                 // listener側はis_endを参照するので何もしない
             }
 
             if join_handles.iter().filter(|handle| !handle.is_finished()).count() == 0 {
+                // 待ちスレッドなくなったら終了
                 break;
             }
             std::thread::sleep(std::time::Duration::from_millis(1000));
-            count+=1;
         }        
     }
 }

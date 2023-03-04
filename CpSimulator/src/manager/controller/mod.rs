@@ -1,9 +1,9 @@
-use std::sync::{Arc, Mutex};
 use std::thread::JoinHandle;
-use log::{error, warn, info, debug};
+
+mod price;
 
 use crate::config::Config;
-use crate::price::price::PriceManager;
+use price::PriceManager;
 
 pub enum Status {
     Stop,

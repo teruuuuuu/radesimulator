@@ -1,15 +1,12 @@
-use std::sync::MutexGuard;
 use std::thread;
-use std::sync::mpsc;
 use std::sync::Arc;
 
 use std::io::prelude::*;
 use std::sync::Mutex;
-use std::thread::{JoinHandle, spawn};
+use std::thread::JoinHandle;
 use std::time::Duration;
 use std::net::TcpListener;
 use std::net::TcpStream;
-use log::{error, warn, info, debug};
 
 use crate::config::ListnerConfig;
 
@@ -58,10 +55,6 @@ impl Listener {
             })     
         }
         blocking_listen_thread(self.port, self.is_end.clone())
-    }
-
-    pub fn stop(&mut self) {
-        (*self.is_end.lock().unwrap()) = true;
     }
 }
 

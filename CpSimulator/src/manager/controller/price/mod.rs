@@ -1,15 +1,20 @@
+// pub mod price;
+
+
 use chrono::offset::Utc;
 use chrono::DateTime;
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
 use std::thread::JoinHandle;
 use std::time::SystemTime;
+use log;
 
-use log::{error, warn, info, debug};
+mod worker;
+mod ticker;
 
 use crate::config::PriceConfig;
-use super::ticker::*;
-use super::worker::*;
+use ticker::*;
+use worker::*;
 pub struct PriceMaker {
     pub symbol: String,
     pub tick_maker: TickMaker,
@@ -27,7 +32,7 @@ impl PriceMaker {
         let datetime: DateTime<Utc> = create_time.into();
 
 
-        info!("symbol[{}] mid[{}] create_time[{}]", self.symbol, mid, datetime.format("%Y/%m/%d %H:%M:%S%.3f"));
+        log::info!("symbol[{}] mid[{}] create_time[{}]", self.symbol, mid, datetime.format("%Y/%m/%d %H:%M:%S%.3f"));
     }
 }
 

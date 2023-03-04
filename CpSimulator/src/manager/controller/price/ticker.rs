@@ -1,8 +1,7 @@
 use rand::Rng;
 use rand_distr::StandardNormal;
-use std::time::{Instant,SystemTime};
+use std::time::Instant;
 
-use log::{error, warn, info, debug};
 
 trait Ticker {
     fn gen(&mut self) -> f64;

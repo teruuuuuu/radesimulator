@@ -1,9 +1,8 @@
 use std::sync::{Arc, Mutex};
-use std::time::{Instant, Duration};
+use std::time::Instant;
 use std::thread::{self, JoinHandle};
-use log::{error, warn, info, debug};
 
-use super::price::*;
+use super::*;
 
 
 pub struct IntervalWorker {

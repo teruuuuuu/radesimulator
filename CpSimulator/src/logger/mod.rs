@@ -1,7 +1,6 @@
 use env_logger;
 use env_logger::Builder;
-use log::{error, warn, info, debug};
-use log::LevelFilter;
+use log;
 
 use crate::config;
 
@@ -31,6 +30,6 @@ pub fn init_logger(log_config_ref: &config::LogConfig) {
             )
         })
         .target(env_logger::Target::Pipe(target))
-        .filter(None, LevelFilter::Info)
+        .filter(None, log::LevelFilter::Info)
         .init();
 }

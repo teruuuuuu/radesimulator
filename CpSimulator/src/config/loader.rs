@@ -1,19 +1,18 @@
-// use std::fs::File;
+use log;
 use std::collections::HashMap;
 use std::io::prelude::*;
-// use log::Log;
-use yaml_rust::{YamlLoader, YamlEmitter};
-use log::{error, warn, info, debug};
+use yaml_rust::YamlLoader;
+
 
 use super::*;
 
-pub fn load_config(configPath: &str) -> Option<Config> {
-    info!("config path[{}]", configPath);
-    let path = std::path::Path::new(configPath);
+pub fn load_config(config_path: &str) -> Option<Config> {
+    log::info!("config path[{}]", config_path);
+    let path = std::path::Path::new(config_path);
 
     let file_opt = match std::fs::File::open(&path) {
         Err(why) => {
-            error!("couldn't open {}: {}", path.display(), why);
+            log::error!("couldn't open {}: {}", path.display(), why);
             None
         },
         Ok(file) => Some(file),
@@ -23,7 +22,7 @@ pub fn load_config(configPath: &str) -> Option<Config> {
         let mut s = String::new();
         match file.read_to_string(&mut s) {
             Err(why) => {
-                error!("couldn't read {}: {}", path.display(), why);
+                log::error!("couldn't read {}: {}", path.display(), why);
                 None   
             },
             Ok(_) => {        
@@ -31,7 +30,7 @@ pub fn load_config(configPath: &str) -> Option<Config> {
             },
         }
     });
-    info!("config \n {}", file_content_opt.clone().unwrap());
+    log::info!("config \n {}", file_content_opt.clone().unwrap());
 
     file_content_opt.and_then(|file_content| {
         load_config_from_str(&file_content)

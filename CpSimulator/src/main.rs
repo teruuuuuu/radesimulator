@@ -1,4 +1,4 @@
-use log::{error, warn, info, debug};
+use log;
 
 use cp_simulator::config;
 use cp_simulator::logger::init_logger; 
@@ -18,7 +18,7 @@ fn main() {
     }
     let config = config_opt.unwrap();
     init_logger(&config.log_config);
-    info!("init logger");
+    log::info!("init logger");
 
     let mut manager = Manager::new(&config);
     manager.start();
