@@ -7,14 +7,16 @@ pub mod loader;
 pub struct Config {
     pub log_config: LogConfig,
     pub listener_config: ListnerConfig,
+    pub client_config: ClientConfig,
     pub price_configs: HashMap<String, PriceConfig>
 }
 
 impl Config {
     pub fn new(log_config: LogConfig, 
         listener_config: ListnerConfig,
+        client_config: ClientConfig,
         price_configs: HashMap<String, PriceConfig>) -> Self {
-        Config { log_config, listener_config, price_configs }
+        Config { log_config, listener_config, client_config, price_configs }
     }
 }
 
@@ -41,16 +43,29 @@ impl ListnerConfig {
 }
 
 #[derive(Debug)]
+pub struct ClientConfig {
+    pub host: String,
+    pub port: u16
+}
+
+impl ClientConfig {
+    pub fn new(host: String, port: u16) -> Self {
+        ClientConfig { host, port }
+    }
+}
+
+#[derive(Debug)]
 pub struct PriceConfig {
     pub symbol: String, // 銘柄 
-    pub tick: f64,      // 初期プライス
+    pub code: u16,
+    pub base_tick: f64,      // 初期プライス
     pub spread: f64,    // スプレッド
     pub sigma: f64,     // ボラティリティ
     pub r: f64          // 短期金利
 }
 
 impl PriceConfig {
-    pub fn new(symbol: String, tick: f64, spread: f64, sigma: f64, r: f64 ) -> Self {
-        PriceConfig { symbol, tick, spread, sigma, r }
+    pub fn new(symbol: String, code: u16, base_tick: f64, spread: f64, sigma: f64, r: f64 ) -> Self {
+        PriceConfig { symbol, code, base_tick, spread, sigma, r }
     }
 }

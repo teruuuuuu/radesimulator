@@ -48,24 +48,35 @@ fn load_config_from_str(file_content: &str) -> Option<Config> {
             let file_path_opt = doc["log"]["filePath"].as_str();
             let log_config_opt = file_path_opt.map(|file_path| LogConfig::new(String::from(file_path)));
 
-            let port_opt = doc["listener"]["port"].as_i64().map(|port| port as u16);
-            let listener_config_opt = port_opt.map(|port| ListnerConfig::new(port) );
+            let listener_port_opt = doc["listener"]["port"].as_i64().map(|port| port as u16);
+            let listener_config_opt = listener_port_opt.map(|port| ListnerConfig::new(port) );
+
+            let client_host_opt = doc["client"]["host"].as_str();
+            let client_port_opt = doc["client"]["port"].as_i64().map(|port| port as u16);
+            let client_config_opt = client_host_opt.map(|host| {
+                client_port_opt.map(|port| ClientConfig::new(host.to_string(), port)).unwrap()
+            });
+
+
 
 
             let price_vec_opt = doc["cp"]["prices"].as_vec();
             let price_config_opt = price_vec_opt.map(|price_vec| price_vec.into_iter().map(|price| {
                 let symbol = price["symbol"].as_str().unwrap();
-                let tick = price["tick"].as_f64().unwrap();
+                let code = price["code"].as_i64().map(|price| price as u16).unwrap();
+                let tick = price["base_tick"].as_f64().unwrap();
                 let spread = price["spread"].as_f64().unwrap();
                 let sigma = price["sigma"].as_f64().unwrap();
                 let r = price["r"].as_f64().unwrap();
-                (symbol.to_string(), PriceConfig::new(symbol.to_string(), tick, spread, sigma, r))
+                (symbol.to_string(), PriceConfig::new(
+                    symbol.to_string(), code, tick, spread, sigma, r))
             }).collect::<HashMap<String, PriceConfig>>());
     
-            if log_config_opt.is_some() && listener_config_opt.is_some() && price_config_opt.is_some() {
+            if log_config_opt.is_some() && listener_config_opt.is_some() && client_config_opt.is_some() & price_config_opt.is_some() {
                 Some(Config::new(
                     log_config_opt.unwrap(), 
                     listener_config_opt.unwrap(), 
+                    client_config_opt.unwrap(),
                     price_config_opt.unwrap())
                 )
             } else {
@@ -111,27 +122,36 @@ log:
   filePath: \"./log/tickmaker.log\"
 
 listener:
-  port: 2345
+  port: 5432
+
+client:
+  host: \"127.0.0.1\"
+  port: 6543
+
 
 cp:
   prices:
     - symbol: \"USD/JPY\"
-      tick: 136.54
+      code: 1
+      base_tick: 136.54
       spread: 0.02
       sigma: 0.4
       r: 0.01
     - symbol: \"EUR/JPY\"
-      tick: 144.870
+      code: 2
+      base_tick: 144.870
       spread: 0.02
       sigma: 0.4
       r: 0.01
     - symbol: \"GBP/JPY\"
-      tick: 163.4
+      code: 3
+      base_tick: 163.4
       spread: 0.02
       sigma: 0.4
       r: 0.01
     - symbol: \"AUD/JPY\"
-      tick: 92.09
+      code: 4
+      base_tick: 92.09
       spread: 0.02
       sigma: 0.4
       r: 0.01

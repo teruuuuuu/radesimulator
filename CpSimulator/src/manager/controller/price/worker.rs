@@ -7,13 +7,13 @@ use super::*;
 
 pub struct IntervalWorker {
     interval: u64,
-    runnable:  Arc<Mutex<PriceMaker>>,
+    runnable:  Arc<Mutex<CommodityMaker>>,
     is_runnning: Arc<Mutex<bool>>,
 }
 
 impl IntervalWorker {
 
-    pub fn new(interval: u64, runnable: Arc<Mutex<PriceMaker>>) -> Self {
+    pub fn new(interval: u64, runnable: Arc<Mutex<CommodityMaker>>) -> Self {
         IntervalWorker { 
             interval, 
             runnable,
@@ -22,7 +22,7 @@ impl IntervalWorker {
     }
 
     pub fn start(&mut self) -> std::thread::JoinHandle<()> { 
-        fn make_loop_thread(interval: u64, runnable:  Arc<Mutex<PriceMaker>>, is_runnning: Arc<Mutex<bool>>) -> JoinHandle<()> {
+        fn make_loop_thread(interval: u64, runnable:  Arc<Mutex<CommodityMaker>>, is_runnning: Arc<Mutex<bool>>) -> JoinHandle<()> {
             thread::spawn(move || {
                 (*is_runnning.lock().unwrap()) = true;
                 let mut cur_time;
