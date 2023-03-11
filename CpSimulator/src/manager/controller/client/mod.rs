@@ -1,5 +1,5 @@
 use std::net::TcpStream;
-use std::io::{self, BufRead, BufReader, Write, stdout};
+use std::io::{Write, stdout};
 
 pub struct TcpClient {
     host: String,
