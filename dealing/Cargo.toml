@@ -1,0 +1,52 @@
+[package]
+name = "dealing"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+shared_util = { path = "../shared-util" }
+bytes = "1.4.0"
+clap = { version = "4.1.10", features = ["derive"] }
+mini-redis = "0.4.1"
+tokio = "1.26.0"
+tracing = "0.1.37"
+tracing-subscriber = { version = "0.3.16", features = ["env-filter"] }
+serde = { version = "1.0.158", features = ["derive"] }
+serde_json = "1.0.94"
+yaml-rust = "0.4.5"
+
+
+[[bin]]
+name = "main"
+path = "src/main.rs"
+
+[[bin]]
+name = "work_listener"
+path = "modules/work/src/listener.rs"
+
+[[bin]]
+name = "work2"
+path = "modules/work2/src/main.rs"
+
+[[bin]]
+name = "work_client"
+path = "modules/work/src/client.rs"
+
+
+[[bin]]
+name = "server"
+path = "modules/server/src/main.rs"
+
+[[bin]]
+name = "client"
+path = "modules/client/src/main.rs"
+
+[[bin]]
+name = "channnels"
+path = "modules/channnels/src/main.rs"
+
+[[bin]]
+name = "echo"
+path = "modules/io/src/echo.rs"

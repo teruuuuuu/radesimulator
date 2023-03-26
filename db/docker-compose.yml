@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15.0-alpine
+    container_name: postgres
+    hostname: postgres
+    ports:
+        - 5432:5432
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - db_network
+  
+  pgadmin:
+    image: dpage/pgadmin4:6.15
+    container_name: pgadmin
+    hostname: pgadmin
+    ports:
+        - 18080:80
+    volumes:
+        - ./pgadmin/data:/var/lib/pgadmin
+    environment:
+        PGADMIN_DEFAULT_EMAIL: postgres@xxx.xxx
+        PGADMIN_DEFAULT_PASSWORD: postgres
+    depends_on:
+      - postgres
+    networks:
+      - db_network
+      
+  flyway-front:
+    image: flyway/flyway:9.8.1
+    container_name: flyway
+    hostname: flyway
+    command: migrate
+    volumes:
+      - ./flyway/front/sql:/flyway/sql
+      - ./flyway/front/conf:/flyway/conf
+    depends_on:
+      - postgres
+    networks:
+      - db_network
+
+  flyway-dealing:
+    image: flyway/flyway:9.8.1
+    container_name: flyway
+    hostname: flyway
+    command: migrate
+    volumes:
+      - ./flyway/dealing/sql:/flyway/sql
+      - ./flyway/dealing/conf:/flyway/conf
+    depends_on:
+      - postgres
+    networks:
+      - db_network
+
+networks:
+  db_network:
+    driver: bridge

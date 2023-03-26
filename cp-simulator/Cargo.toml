@@ -1,0 +1,24 @@
+[package]
+name = "cp_simulator"
+version = "0.1.0"
+edition = "2021"
+default-run="main"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+shared_util = { path = "../shared-util" }
+rand = "0.8.5"
+rand_distr = "0.4.3"
+env_logger = "0.10.0" 
+log = "0.4.17"
+chrono = "0.4.23"
+log4rs = "1.2.0"
+yaml-rust = "0.4.5"
+tokio = "1.26.0"
+serde = { version = "1.0.158", features = ["derive"] }
+serde_json = "1.0.94"
+
+[[bin]]
+name = "main"
+path = "src/main.rs"

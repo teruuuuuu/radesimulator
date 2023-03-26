@@ -1,0 +1,5 @@
+[workspace]
+
+members = [
+    "cp-simulator", "dealing-simulator", "shared-util"
+]

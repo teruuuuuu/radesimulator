@@ -1,0 +1,1 @@
+curl -XPOST http://localhost:5432/terminate

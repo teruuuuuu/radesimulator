@@ -1,0 +1,20 @@
+
+commodities:
+  - code: 1
+    symbol: "USD/JPY"
+    pip_size: 0.01
+    lot_size: 
+  - code: 2
+    symbol: "EUR/JPY"
+    pip_size: 0.01
+  - code: 3
+    symbol: "GBP/JPY"
+    pip_size: 0.01
+  - code: 4
+    symbol: "AUD/JPY"
+    pip_size: 0.01
+
+
+cp_list:
+  - price_port: 6379
+
